@@ -65,27 +65,27 @@
 
 | ID | Task | Priority | Estimate | Status | Dependencies |
 |---|---|---|---|---|---|
-| **T015** | ファームウェアアーキテクチャ設計書作成（コマンドプロトコル、状態遷移） | P1 | 2 days | Not Started | T014 |
-| **T016** | シリアルコマンド仕様書作成（DRAW_CIRCLE, DRAW_RECT 等） | P1 | 2 days | Not Started | T015 |
-| **T017** | エラーコード定義書（ER-TIMEOUT, ER-SIZE, ER-MALFORMED） | P1 | 1 day | Not Started | T016 |
-| **T018** | UML State Machine 図作成（ファームウェア受信→解析→描画） | P2 | 1 day | Not Started | T015 |
+| **T015** | ファームウェアアーキテクチャ設計書作成（コマンドプロトコル、状態遷移） | P1 | 2 days | ✅ Completed | T014 |
+| **T016** | シリアルコマンド仕様書作成（DRAW_CIRCLE, DRAW_RECT 等） | P1 | 2 days | ✅ Completed | T015 |
+| **T017** | エラーコード定義書（ER-TIMEOUT, ER-SIZE, ER-MALFORMED） | P1 | 1 day | ✅ Completed | T016 |
+| **T018** | UML State Machine 図作成（ファームウェア受信→解析→描画） | P2 | 1 day | ✅ Completed | T015 |
 
 ### 描画エンジン実装 (P1)
 
 | ID | Task | Priority | Estimate | Status | Dependencies |
 |---|---|---|---|---|---|
-| **T019** | `firmware/src/drawing_engine.cpp` 基本実装（drawCircle, drawRect, clearScreen） | P1 | 3 days | Not Started | T016 |
-| **T020** | M5StickCPlus2 LCD ライブラリ統合＆色管理（RGB565） | P1 | 2 days | Not Started | T019 |
-| **T021** | `firmware/src/drawing_engine.cpp` テスト（統合テスト：DrawingEngine + LCD 実機描画） | P1 | 2 days | Not Started | T019, T020 |
+| **T019** | `firmware/src/drawing_engine.cpp` 基本実装（drawCircle, drawRect, clearScreen） | P1 | 3 days | ✅ Completed | T016 |
+| **T020** | M5StickCPlus2 LCD ライブラリ統合＆色管理（RGB565） | P1 | 2 days | ✅ Completed | T019 |
+| **T021** | `firmware/src/drawing_engine.cpp` テスト（統合テスト：DrawingEngine + LCD 実機描画） | P1 | 2 days | ⏳ In Progress | T019, T020 |
 
 ### シリアルハンドラ実装 (P1)
 
 | ID | Task | Priority | Estimate | Status | Dependencies |
 |---|---|---|---|---|---|
-| **T022** | `firmware/src/serial_handler.cpp` 基本実装（割り込みハンドラ、バッファ管理） | P1 | 2 days | Not Started | T016 |
-| **T023** | コマンドパーサー実装（トークン分割、型変換） | P1 | 2 days | Not Started | T022 |
-| **T024** | エラーハンドリング＆応答フォーマット（OK/ER-xxx） | P1 | 1 day | Not Started | T017, T023 |
-| **T025** | CRC-16 チェックサム追加（通信信頼性向上） | P2 | 1 day | Not Started | T024 |
+| **T022** | `firmware/src/serial_handler.cpp` 基本実装（割り込みハンドラ、バッファ管理） | P1 | 2 days | ✅ Completed | T016 |
+| **T023** | コマンドパーサー実装（トークン分割、型変換） | P1 | 2 days | ✅ Completed | T022 |
+| **T024** | エラーハンドリング＆応答フォーマット（OK/ER-xxx） | P1 | 1 day | ✅ Completed | T017, T023 |
+| **T025** | CRC-16 チェックサム追加（通信信頼性向上） | P2 | 1 day | ⏳ In Progress | T024 |
 
 ### ファームウェア統合＆テスト (P1)
 
