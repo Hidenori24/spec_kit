@@ -31,7 +31,15 @@
 
 *GATE: Must pass before Phase 0 research. Re-check after Phase 1 design.*
 
-[Gates determined based on constitution file]
+- **Human-directed control (I)**: Confirm feature is initiated by explicit operator action.
+- **Target compatibility (II)**: Confirm M5StickC Plus2 behavior preserved or migration plan exists.
+- **Deterministic outcomes (III)**: Define success/failure states; reject ambiguous partial outcomes.
+- **Verification strategy (IV)**: Include mocked tests AND hardware-in-the-loop validation.
+- **Observability/recovery (V)**: Define operation logging and retry flow.
+- **Code quality & architecture (VI)**: Document major design decisions; code clarity for small team.
+- **Test selectivity (VII)**: Focus on critical device I/O, comms, errors; skip helper unit tests.
+- **Technology stack**: Confirm C++/PlatformIO, Python 3.10+, VS Code, Copilot.
+- **IoT integration**: Resource constraints, recovery paths, thermal/power documented.
 
 ## Project Structure
 

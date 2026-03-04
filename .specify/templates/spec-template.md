@@ -100,6 +100,24 @@
 - **[Entity 1]**: [What it represents, key attributes without implementation]
 - **[Entity 2]**: [What it represents, relationships to other entities]
 
+## Device Compatibility & Operations *(mandatory for hardware-connected features)*
+
+- Target device assumptions MUST be explicit (model, connection preconditions, and
+  expected display behavior).
+- Each user-visible command outcome MUST be deterministic and classed as success or
+  failure with a clear reason.
+- Failure handling MUST define operator retry behavior without full system restart.
+
+## Technology Stack Requirements *(mandatory for new features)*
+
+- **Language Choices**: Specify which approved languages are used (C++ for M5StickC Plus2
+  firmware, Python 3.10+ for Raspberry Pi 5 host).
+- **Tooling**: Confirm use of PlatformIO, VS Code, and GitHub Copilot as needed.
+- **No Deviations Without Justification**: Any technology outside the approved stack MUST
+  include written rationale in the plan.
+- **Resource Constraints**: Document memory, CPU, power, and thermal assumptions for
+  device-side code.
+
 ## Success Criteria *(mandatory)*
 
 <!--
