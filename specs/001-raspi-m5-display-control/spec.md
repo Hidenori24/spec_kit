@@ -91,7 +91,7 @@ Copilot の自然言語指示に基づいて、テンプレートやプリセッ
 ### Edge Cases
 
 - MCP ゲートウェイがタイムアウト（応答なし）した場合でも、利用者が指示を再送できる状態を維持すること
-- 複数の描画指示が短時間に queue させられた場合、最終的に最新の指示のみが M5Stick に適用されること
+- 複数の描画指示が短時間（2 秒以内）に queue させられた場合、最終的に最新の指示のみが M5Stick に適用されること
 - Copilot が曖昧な指示（「色を変えて」など）を生成した場合、最も近い有効コマンドへ自動補正して実行し、補正内容を結果に含めること
 - M5Stick の VRAM 制約で指定内容が収まらない場合、表示崩れではなく明白な失敗コード（例：ER-SIZE）を返すこと
 - 有線シリアルが瞬間的に切断・再接続された場合、次の指示で自動的に再同期されること
@@ -102,7 +102,7 @@ Copilot の自然言語指示に基づいて、テンプレートやプリセッ
 
 - **FR-001**: System MUST allow a user on Raspberry Pi 5 to request replacement of the current M5Stick screen content via VS Code + Copilot interface using MCP.
 - **FR-002**: MCP gateway on Raspberry Pi MUST translate Copilot's natural language drawing instructions into deterministic device commands.
-- **FR-003**: System MUST serialize drawing commands and send them to M5StickC Plus2 via wired (serial/UART) protocol with configurable baud rate.
+- **FR-003**: System MUST serialize drawing commands and send them to M5StickC Plus2 via wired (serial/UART) protocol with configurable baud rate (default 115200).
 - **FR-004**: System MUST apply a new screen update so that previous screen content is replaced by the latest requested content.
 - **FR-005**: System MUST return a clear success or failure result for each screen update request (e.g., "OK", "ER-TIMEOUT", "ER-SIZE", "ER-MALFORMED").
 - **FR-006**: System MUST support at least 5 predefined display items (graph, temperature sensor, standby screen, text log, custom layout) selectable by user or Copilot instruction.
@@ -110,7 +110,7 @@ Copilot の自然言語指示に基づいて、テンプレートやプリセッ
 - **FR-008**: System MUST maintain an item registry (configuration) listing all available display items, their layouts, and refresh logic.
 - **FR-009**: System MUST prevent partially updated or visually corrupted output from being treated as a successful update.
 - **FR-010**: System MUST validate incoming screen update content against M5Stick VRAM and display size constraints before applying it.
-- **FR-011**: System MUST support dynamic addition of new display patterns via MCP instruction without code rebuild.
+- **FR-011**: System MUST support dynamic addition of new display patterns via MCP instruction without M5Stick firmware rebuild.
 - **FR-012**: System MUST keep a retrievable history of the latest 100 update attempts using a ring buffer, including request time, request content (abbreviated), and result.
 - **FR-013**: For demo usage, MCP gateway MUST accept commands without authentication and operate only in a trusted local wired environment.
 - **FR-014**: System MUST persist display item definitions in a local file so they remain available after Raspberry Pi reboot.
@@ -131,7 +131,7 @@ Copilot の自然言語指示に基づいて、テンプレートやプリセッ
 - **SC-001**: Copilot 経由で画面更新を指示してから M5Stick の表示置き換え完了を確認するまでが、通常条件（MCP + シリアル接続正常）で 5 秒以内に収まる。
 - **SC-002**: 正常接続時の更新成功率が 95% 以上である。MCP timeout、シリアル再接続後も自動復帰可能。
 - **SC-003**: 更新失敗時に、利用者が 10 秒以内に失敗理由コード（ER-SIZE、ER-TIMEOUT など）を認識できる。
-- **SC-004**: 初見利用者（AI 駆動に慣れたステークホルダー）の 90% 以上が、Copilot への自然言語指示のみで 1 回以上の画面更新を完了できる。
+- **SC-004**: 初見利用者（VS Code + Copilot を日常的に使う開発者）の 90% 以上が、Copilot への自然言語指示のみで 1 回以上の画面更新を完了できる。
 - **SC-005**: 定義済み display item の切り替えが 2 秒以内に完了する（再描画含む）。
 - **SC-006**: MCP ゲートウェイが queue 管理により、短時間の連続指示でも最後の指示のみが適用される。
 

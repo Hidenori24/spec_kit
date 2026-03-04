@@ -76,7 +76,7 @@
 |---|---|---|---|---|---|
 | **T019** | `firmware/src/drawing_engine.cpp` 基本実装（drawCircle, drawRect, clearScreen） | P1 | 3 days | Not Started | T016 |
 | **T020** | M5StickCPlus2 LCD ライブラリ統合＆色管理（RGB565） | P1 | 2 days | Not Started | T019 |
-| **T021** | `firmware/src/drawing_engine.cpp` テスト（単体テスト：各図形描画） | P1 | 2 days | Not Started | T019, T020 |
+| **T021** | `firmware/src/drawing_engine.cpp` テスト（統合テスト：DrawingEngine + LCD 実機描画） | P1 | 2 days | Not Started | T019, T020 |
 
 ### シリアルハンドラ実装 (P1)
 
@@ -94,7 +94,7 @@
 | **T026** | PlatformIO での ビルド＆M5Stick へのアップロード | P1 | 1 day | Not Started | T021, T024 |
 | **T027** | HW 統合テスト：Raspberry Pi から DRAW_CIRCLE 指示 → M5Stick 描画確認 | P1 | 2 days | Not Started | T026, T012 |
 | **T028** | フェイルセーフテスト：不正コマンド送信 → ER-MALFORMED 応答確認 | P1 | 1 day | Not Started | T027 |
-| **T029** | VRAM＆リソース検証（RAM 使用率確認、メモリリーク チェック） | P2 | 1 day | Not Started | T027 |
+| **T029** | VRAM＆リソース検証（RAM 使用率確認、メモリリーク チェック、FR-010 VRAM 制約検証） | P2 | 1 day | Not Started | T027 |
 | **T030** | Phase 1 完了チェックリスト＆ファームウェア設計書最終版 | P2 | 1 day | Not Started | T029 |
 
 ---
@@ -184,8 +184,9 @@
 | **T059** | Scenario A テスト：「赤い円を中央に」指示 → 5 秒以内表示（SC-001） | P1 | 1 day | Not Started | T058 |
 | **T060** | Scenario B テスト：3 回連続指示 → 最後だけ反映（SC-006） | P1 | 1 day | Not Started | T058 |
 | **T061** | Scenario C テスト：曖昧「色変えて」→ 自動補正実行（FR-015） | P1 | 1 day | Not Started | T058 |
-| **T062** | Scenario D テスト：M5Stick 未接続 → ER-TIMEOUT＆リトライ確認 | P1 | 1 day | Not Started | T058 |
+| **T062** | Scenario D テスト：M5Stick 未接続 → ER-TIMEOUT＆リトライ確認（SC-003: 10 秒以内の失敗認識） | P1 | 1 day | Not Started | T058 |
 | **T063** | 統計テスト：20 回反復 → 95% 成功率確認（SC-002） | P1 | 2 days | Not Started | T059～T062 |
+| **T077** | 初見利用者ユーザビリティテスト（10 名中 90% 成功、SC-004） | P2 | 2 days | Not Started | T063 |
 
 ### ドキュメント完成 (P2)
 
@@ -246,7 +247,7 @@ Phase 3 (Features):
   T049, T051 → T056, T057
 
 Phase 4 (Validation):
-  T058 → T059～T062 → T063
+  T058 → T059～T062 → T063 → T077
   → T064～T070 (Documents)
   → T071～T073 (Deployment)
   → T074, T075, T076 (Demo & Release)
@@ -275,7 +276,7 @@ T010, T013, T014,
 T017, T018, T025, T029, T030,
 T043, T044,
 T049, T052, T054, T055, T058,
-T064, T065, T066, T067, T069, T071, T072, T073, T074, T075, T076
+T064, T065, T066, T067, T069, T071, T072, T073, T074, T075, T076, T077
 ```
 
 ### P3 Medium (5 tasks) - ナイスツーハブ
@@ -294,8 +295,8 @@ T068, T070, T053, T057
 | **P1** | 16 | 25-30 days | 3 weeks |
 | **P2** | 14 | 20-25 days | 4 weeks |
 | **P3** | 14 | 20-25 days | 5 weeks |
-| **P4** | 18 | 18-22 days | 2 weeks |
-| **Total** | **76** | **97-117 days** | **12-16 weeks** |
+| **P4** | 19 | 20-24 days | 2 weeks |
+| **Total** | **77** | **99-119 days** | **12-16 weeks** |
 
 **実務的な配置**: 1.0 FTE Firmware + 1.0 FTE Backend (並列進行) → 12 週エスティメート
 
@@ -308,7 +309,7 @@ T068, T070, T053, T057
 - T011-T030: Phase 1 branch (`phase-1-firmware`)
 - T031-T044: Phase 2 branch (`phase-2-mcp`)
 - T045-T058: Phase 3 branch (`phase-3-features`)
-- T059-T076: Phase 4 branch (`phase-4-validation`)
+- T059-T077: Phase 4 branch (`phase-4-validation`)
 
 **最終的なマージ**: `001-raspi-m5-display-control` ← 各フェーズブランチ PR
 
@@ -339,7 +340,7 @@ git checkout -b phase-4-validation
 - **完了条件**: 「HELLO」送受信成功、レスポンス確認
 
 ### Phase 1 テスト
-- **T021**: 単体テスト（描画エンジン各関数）
+- **T021**: 統合テスト（DrawingEngine + LCD 実機描画）
 - **T027**: HW 統合テスト（Raspberry Pi から DRAW_CIRCLE → M5Stick 表示）
 - **T028**: エラーハンドリングテスト（ER-MALFORMED 応答）
 - **完了条件**: 赤い円＆矩形表示確認、エラーコード返却
@@ -359,8 +360,9 @@ git checkout -b phase-4-validation
 
 ### Phase 4 テスト
 - **T063**: 統計テスト 20 回反復 → 95% 成功率確認
+- **T077**: 初見利用者ユーザビリティテスト（10 名中 90% 成功）
 - **T074**: Live デモ（スクリーンショット＆動画記録）
-- **完了条件**: 全 SC-001～SC-006 検証pass、デモ実施
+- **完了条件**: 全 SC-001～SC-006 検証pass、SC-004 ユーザビリティ達成、デモ実施
 
 ---
 
