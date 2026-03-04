@@ -46,19 +46,19 @@ Raspberry Pi 5 上に MCP ゲートウェイを構築し、Copilot の自然言�
    - USB-UART ケーブル確保＆ドライバ確認（Windows/Linux/macOS）
 
 2. **シリアル通信基盤確認**
-   - Raspberry Pi の UART ポート（/dev/ttyAMA0 or /dev/ttyS0）と M5Stick の RX/TX をテスト配線
-   - ボーレート設定確認（115200 を想定）
-   - minicom or screen コマンドで双方向疎通確認（テキスト送受信テスト）
+  - Raspberry Pi の UART ポート（/dev/ttyAMA0 or /dev/ttyS0）と M5Stick の RX/TX をテスト配線
+  - ボーレート設定確認（115200 を想定）
+  - minicom or screen コマンドで双方向疎通確認（テキスト送受信テスト）
 
 3. **開発環境セットアップ**
-   - Raspberry Pi 5 に Python 3.10+ インストール確認
-   - Windows/macOS マシンに PlatformIO CLI インストール（M5Stick 開発用）
-   - VS Code インストール＆GitHub Copilot 拡張セットアップ
-   - Git リポジトリクローンと ブランチ `001-raspi-m5-display-control` チェックアウト
+  - Raspberry Pi 5 に Python 3.10+ インストール確認
+  - Raspberry Pi 5 に PlatformIO CLI インストール（M5Stick 開発用）
+  - Raspberry Pi 5 に VS Code インストール＆GitHub Copilot 拡張セットアップ
+  - Git リポジトリクローンと ブランチ `001-raspi-m5-display-control` チェックアウト
 
 4. **初期テスト**
-   - PlatformIO で空スケッチを M5Stick へデプロイし起動確認
-   - Raspberry Pi から シリアルで「HELLO」を送信 → M5Stick 受信確認
+  - Raspberry Pi 5 上の PlatformIO で空スケッチを M5Stick へデプロイし起動確認
+  - Raspberry Pi から シリアルで「HELLO」を送信 → M5Stick 受信確認
 
 **完了条件**:
 - ✅ USB-UART ドライバ＆接続確認済み
