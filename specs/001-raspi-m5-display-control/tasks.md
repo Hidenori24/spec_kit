@@ -14,6 +14,15 @@
 - **[Priority]**: 優先度（P1=Critical, P2=High, P3=Medium, P4=Low）
 - **[Estimate]**: 見積もり日数
 - **[Dependencies]**: 依存タスク
+- **[Parallel]**: 並列実行可能（[P] 表記）
+
+## 整合性マッピング
+
+| User Story | Tasks | Spec Section | Plan Phase |
+|---|---|---|---|
+| **US-1** (AI駆動描画、P1) | T027, T040, T059～T062 | Acceptance Scenarios 1-2 | Phase 1-2 |
+| **US-2** (アイテム切り替え、P2) | T045～T051, T056 | Acceptance Scenarios 1-2 | Phase 3 |
+| **US-3** (MCP プリセット、P3) | T048, T057 | Acceptance Scenarios 1-2 | Phase 3 |
 
 ---
 
@@ -305,5 +314,56 @@ T068, T070, T053, T057
 
 ---
 
-**Task Status**: 🔴 Not Started  
-**Last Updated**: 2026-03-04
+## Git ワークフロー
+
+各フェーズのタスク完了時に phase ブランチを切り、PR で統合：
+
+```bash
+# Phase 0 完了時
+git checkout -b phase-0-env
+# T001～T014 のタスク実行＆コミット
+git push origin phase-0-env
+# PR 作成：phase-0-env → 001-raspi-m5-display-control
+
+# 以降 Phase 1-4 も同様
+git checkout -b phase-1-firmware
+git checkout -b phase-2-mcp
+git checkout -b phase-3-features
+git checkout -b phase-4-validation
+```
+
+## テスト方法サマリ
+
+### Phase 0 テスト
+- **T011/T012**: minicom/screen で シリアル双方向テキスト確認
+- **完了条件**: 「HELLO」送受信成功、レスポンス確認
+
+### Phase 1 テスト
+- **T021**: 単体テスト（描画エンジン各関数）
+- **T027**: HW 統合テスト（Raspberry Pi から DRAW_CIRCLE → M5Stick 表示）
+- **T028**: エラーハンドリングテスト（ER-MALFORMED 応答）
+- **完了条件**: 赤い円＆矩形表示確認、エラーコード返却
+
+### Phase 2 テスト
+- **T040**: E2E（Copilot → MCP → M5Stick）5 秒以内到着
+- **T041**: エラーテスト（M5Stick 未接続 → ER-TIMEOUT）
+- **T042**: 応答時間測定（複数回実行、平均値確認）
+- **完了条件**: 5 秒 SLA 達成、タイムアウト処理確認
+
+### Phase 3 テスト
+- **T049**: Raspberry Pi 再起動 → JSON ファイル存在確認
+- **T051**: 複数指示同時送信 → 最後の指示のみ実行確認
+- **T053**: 曖昧指示「色を変えて」→ 自動補正実行確認
+- **T056**: アイテム切り替え 3 回（グラフ→温度→スタンバイ）2秒以内
+- **完了条件**: US-2/US-3 受け入れシナリオ全て pass
+
+### Phase 4 テスト
+- **T063**: 統計テスト 20 回反復 → 95% 成功率確認
+- **T074**: Live デモ（スクリーンショット＆動画記録）
+- **完了条件**: 全 SC-001～SC-006 検証pass、デモ実施
+
+---
+
+**Task Status**: 🟡 Draft (Ready for Phase 0 Execution)  
+**Last Updated**: 2026-03-04  
+**Next Action**: Git phase-0-env branch 作成 → T001 開始
