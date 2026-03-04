@@ -115,10 +115,10 @@
 
 | ID | Task | Priority | Estimate | Status | Dependencies |
 |---|---|---|---|---|---|
-| **T035** | `src_pi/mcp_gateway.py` 基本実装（MCPGateway クラス、メッセージハンドラ） | P1 | 3 days | Not Started | T033 |
-| **T036** | `src_pi/serial_manager.py` 実装（シリアル送受信、タイムアウト、リトライ） | P1 | 2 days | Not Started | T033 |
-| **T037** | 自然言語パーサー実装（"赤い円" → DRAW_CIRCLE コマンド翻訳） | P1 | 2 days | Not Started | T035, T036 |
-| **T038** | JSON-RPC レスポンス形式実装（OK, ER-xxx） | P1 | 1 day | Not Started | T036 |
+| **T035** | `src_pi/mcp_gateway.py` 基本実装（MCPGateway クラス、メッセージハンドラ） | P1 | 3 days | ✅ Completed | T033 |
+| **T036** | `src_pi/serial_manager.py` 実装（シリアル送受信、タイムアウト、リトライ） | P1 | 2 days | ✅ Completed | T033 |
+| **T037** | 自然言語パーサー実装（"赤い円" → DRAW_CIRCLE コマンド翻訳） | P1 | 2 days | ✅ Completed | T035, T036 |
+| **T038** | JSON-RPC レスポンス形式実装（OK, ER-xxx） | P1 | 1 day | ✅ Completed | T036 |
 
 ### Copilot 統合＆テスト (P2)
 
