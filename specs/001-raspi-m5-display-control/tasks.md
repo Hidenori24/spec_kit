@@ -105,11 +105,11 @@
 
 | ID | Task | Priority | Estimate | Status | Dependencies |
 |---|---|---|---|---|---|
-| **T031** | MCP プロトコル仕様確認＆フロー図作成 | P1 | 1 day | Not Started | T030 |
-| **T032** | MCP ゲートウェイアーキテクチャ設計書（JSON-RPC インターフェース） | P1 | 2 days | Not Started | T031 |
-| **T033** | 自然言語→コマンド翻訳仕様書（キーワード辞書、補正戦略） | P1 | 1 day | Not Started | T032 |
-| **T078** | 無認証運用の前提条件・運用範囲を設計書に明記（FR-013） | P2 | 0.5 days | Not Started | T032 |
-| **T034** | UML Sequence 図作成（Copilot → MCP → Serial → M5Stick） | P2 | 1 day | Not Started | T032 |
+| **T031** | MCP プロトコル仕様確認＆フロー図作成 | P1 | 1 day | ✅ Completed | T030 |
+| **T032** | MCP ゲートウェイアーキテクチャ設計書（JSON-RPC インターフェース） | P1 | 2 days | ✅ Completed | T031 |
+| **T033** | 自然言語→コマンド翻訳仕様書（キーワード辞書、補正戦略） | P1 | 1 day | ✅ Completed | T032 |
+| **T078** | 無認証運用の前提条件・運用範囲を設計書に明記（FR-013） | P2 | 0.5 days | ✅ Completed | T032 |
+| **T034** | UML Sequence 図作成（Copilot → MCP → Serial → M5Stick） | P2 | 1 day | ✅ Completed | T032 |
 
 ### Python MCP ゲートウェイ実装 (P1)
 
