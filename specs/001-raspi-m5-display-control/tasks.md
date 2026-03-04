@@ -1,7 +1,7 @@
 # タスク分解：Raspberry Pi 5 + M5StickC Plus2 AI-Driven Display System
 
 **Feature Branch**: `001-raspi-m5-display-control`  
-**Task Allocation**: 30+ tasks across 5 phases  
+**Task Allocation**: 78 tasks across 5 phases  
 **Status**: Draft  
 
 ---
@@ -108,6 +108,7 @@
 | **T031** | MCP プロトコル仕様確認＆フロー図作成 | P1 | 1 day | Not Started | T030 |
 | **T032** | MCP ゲートウェイアーキテクチャ設計書（JSON-RPC インターフェース） | P1 | 2 days | Not Started | T031 |
 | **T033** | 自然言語→コマンド翻訳仕様書（キーワード辞書、補正戦略） | P1 | 1 day | Not Started | T032 |
+| **T078** | 無認証運用の前提条件・運用範囲を設計書に明記（FR-013） | P2 | 0.5 days | Not Started | T032 |
 | **T034** | UML Sequence 図作成（Copilot → MCP → Serial → M5Stick） | P2 | 1 day | Not Started | T032 |
 
 ### Python MCP ゲートウェイ実装 (P1)
@@ -236,6 +237,7 @@ Phase 1 (Firmware):
 
 Phase 2 (MCP):
   T031, T032, T033, T034 (Design)
+  T032 → T078
   T033 → T035, T036, T037
   T035, T036 → T039
   T039 → T040, T041, T042, T043
@@ -257,7 +259,7 @@ Phase 4 (Validation):
 
 ## 優先度別タスク一覧
 
-### P1 Critical (20 tasks) - Phase 0-3, 4 のメインパス
+### P1 Critical (44 tasks) - Phase 0-3, 4 のメインパス
 
 ```
 T001, T002, T003, T004, T005, T006, T007, T008, T009,
@@ -269,17 +271,17 @@ T056,
 T059, T060, T061, T062, T063
 ```
 
-### P2 High (15 tasks) - 基盤強化＆ドキュメント
+### P2 High (28 tasks) - 基盤強化＆ドキュメント
 
 ```
 T010, T013, T014,
 T017, T018, T025, T029, T030,
 T043, T044,
 T049, T052, T054, T055, T058,
-T064, T065, T066, T067, T069, T071, T072, T073, T074, T075, T076, T077
+T064, T065, T066, T067, T069, T071, T072, T073, T074, T075, T076, T077, T078
 ```
 
-### P3 Medium (5 tasks) - ナイスツーハブ
+### P3 Medium (4 tasks) - ナイスツーハブ
 
 ```
 T068, T070, T053, T057
@@ -293,10 +295,10 @@ T068, T070, T053, T057
 |-------|-------|-----------------|-----------------|
 | **P0** | 14 | 14-15 days | 2 weeks |
 | **P1** | 16 | 25-30 days | 3 weeks |
-| **P2** | 14 | 20-25 days | 4 weeks |
+| **P2** | 15 | 21-26 days | 4 weeks |
 | **P3** | 14 | 20-25 days | 5 weeks |
 | **P4** | 19 | 20-24 days | 2 weeks |
-| **Total** | **77** | **99-119 days** | **12-16 weeks** |
+| **Total** | **78** | **100-120 days** | **12-16 weeks** |
 
 **実務的な配置**: 1.0 FTE Firmware + 1.0 FTE Backend (並列進行) → 12 週エスティメート
 

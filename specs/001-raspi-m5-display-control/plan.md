@@ -17,7 +17,7 @@ Raspberry Pi 5 上に MCP ゲートウェイを構築し、Copilot の自然言�
 - M5Stick C++ ファームウェア（PlatformIO）
 - Raspberry Pi 5 上の MCP ゲートウェイ（Python 3.10+）
 - 項目レジストリとコマンド履歴管理
-- VS Code 統合デモ＆（オプション）スタンドアロン UI
+- VS Code 統合デモ
 
 ---
 
@@ -299,6 +299,7 @@ Raspberry Pi 5 上に MCP ゲートウェイを構築し、Copilot の自然言�
 
 **完了条件**:
 - ✅ 全 SC-001～SC-006 検証完了
+- ✅ SC-004 初見利用者 90% 成功検証完了
 - ✅ 95% 成功率達成
 - ✅ エンドツーエンドテストシナリオ A-D 全て pass
 - ✅ 技術資料全て完成
