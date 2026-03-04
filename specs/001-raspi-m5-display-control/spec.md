@@ -8,6 +8,15 @@
 - Enable AI-driven (VS Code + Copilot) display generation from Raspberry Pi
 - Support simple item switching, MCP-based interface, wired serial communication
 
+## Clarifications
+
+### Session 2026-03-04
+
+- Q: MCP への指示権限（認可方式）は？ → A: 認証なし（物理接続を信頼するデモ用途）
+- Q: 更新履歴の保持ポリシーは？ → A: 直近100件のみ保持（リングバッファ）
+- Q: 描画アイテム定義の保持方式は？ → A: ローカルファイルに永続化（再起動後も保持）
+- Q: 曖昧な自然言語指示の処理方針は？ → A: 最も近い候補に自動補正して実行する
+
 ## User Scenarios & Testing *(mandatory)*
 
 ### User Story 1 - AI駆動での自由な画面描画 (Priority: P1)
@@ -83,7 +92,7 @@ Copilot の自然言語指示に基づいて、テンプレートやプリセッ
 
 - MCP ゲートウェイがタイムアウト（応答なし）した場合でも、利用者が指示を再送できる状態を維持すること
 - 複数の描画指示が短時間に queue させられた場合、最終的に最新の指示のみが M5Stick に適用されること
-- Copilot が曖昧な指示（「色を変えて」など）を生成した場合、M5Stick が前状態を保ちながら警告を返すこと
+- Copilot が曖昧な指示（「色を変えて」など）を生成した場合、最も近い有効コマンドへ自動補正して実行し、補正内容を結果に含めること
 - M5Stick の VRAM 制約で指定内容が収まらない場合、表示崩れではなく明白な失敗コード（例：ER-SIZE）を返すこと
 - 有線シリアルが瞬間的に切断・再接続された場合、次の指示で自動的に再同期されること
 
@@ -102,13 +111,16 @@ Copilot の自然言語指示に基づいて、テンプレートやプリセッ
 - **FR-009**: System MUST prevent partially updated or visually corrupted output from being treated as a successful update.
 - **FR-010**: System MUST validate incoming screen update content against M5Stick VRAM and display size constraints before applying it.
 - **FR-011**: System MUST support dynamic addition of new display patterns via MCP instruction without code rebuild.
-- **FR-012**: System MUST keep a retrievable history of recent update attempts including request time, request content (abbreviated), and result.
+- **FR-012**: System MUST keep a retrievable history of the latest 100 update attempts using a ring buffer, including request time, request content (abbreviated), and result.
+- **FR-013**: For demo usage, MCP gateway MUST accept commands without authentication and operate only in a trusted local wired environment.
+- **FR-014**: System MUST persist display item definitions in a local file so they remain available after Raspberry Pi reboot.
+- **FR-015**: System MUST auto-correct ambiguous natural language instructions to the nearest valid display command and execute it, while returning correction details in the result.
 
 ### Key Entities *(include if feature involves data)*
 
 - **Display Update Request**: 1 回の画面更新要求。要求時刻、要求内容（自然言語またはアイテム ID）、対象デバイス識別子、要求元（Copilot/ユーザ）識別子を持つ。
 - **Display Update Result**: 更新要求に対する結果。成功/失敗、失敗時の理由コード（ER-TIMEOUT、ER-SIZE など）、確定時刻を持つ。
-- **Display Item** (新規): 再利用可能な表示パターン。アイテム ID、名前、レイアウト定義、更新ロジック、VRAM 要件を持つ。
+- **Display Item** (新規): 再利用可能な表示パターン。アイテム ID、名前、レイアウト定義、更新ロジック、VRAM 要件、永続化状態を持つ。
 - **MCP Command** (新規): Copilot → MCP ゲートウェイ間のプロトコルメッセージ。命令タイプ、パラメータ、シーケンス番号、タイムスタンプを持つ。
 - **Serial Message**: MCP ゲートウェイ → M5StickC Plus2 間の通信フレーム。バイナリエンコード、チェックサム、受信確認フラグを持つ。
 
