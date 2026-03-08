@@ -10,17 +10,17 @@ SerialHandler serialHandler;
 CommandParser commandParser;
 
 // ログ用マクロ
-#define LOG_INFO(fmt, ...) Serial.printf("[INFO] " fmt "\n", ##__VA_ARGS__)
-#define LOG_WARN(fmt, ...) Serial.printf("[WARN] " fmt "\n", ##__VA_ARGS__)
-#define LOG_ERROR(fmt, ...) Serial.printf("[ERROR] " fmt "\n", ##__VA_ARGS__)
+#define LOG_INFO(fmt, ...)
+#define LOG_WARN(fmt, ...)
+#define LOG_ERROR(fmt, ...)
 
 void setup() {
     // M5StickC Plus2 初期化
     auto cfg = M5.config();
     M5.begin(cfg);
     
-    // シリアル通信初期化
-    Serial1.begin(115200, SERIAL_8N1, GPIO_NUM_13, GPIO_NUM_14);  // RX, TX
+    // 通信シリアル（USB）
+    Serial.begin(115200);
     delay(100);
     
     LOG_INFO("M5StickC Plus2 Boot");
@@ -39,8 +39,8 @@ void loop() {
     M5.update();
     
     // シリアルデータ受信確認
-    if (Serial1.available()) {
-        uint8_t data = Serial1.read();
+    if (Serial.available()) {
+        uint8_t data = Serial.read();
         serialHandler.addRxByte(data);
     }
     
@@ -54,7 +54,7 @@ void loop() {
             LOG_WARN("Command validation failed");
             Result error = commandParser.createError(RESULT_MALFORMED, "CRC or format error");
             serialHandler.sendResponse(&error);
-            continue;
+            return;
         }
         
         // コマンド実行
@@ -109,7 +109,8 @@ void loop() {
             case CMD_PING: {
                 result.status = RESULT_INFO;
                 result.duration_ms = 0;
-                strcpy_s(result.message, sizeof(result.message), "PONG");
+                strncpy(result.message, "PONG", sizeof(result.message) - 1);
+                result.message[sizeof(result.message) - 1] = '\0';
                 break;
             }
             

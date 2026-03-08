@@ -46,8 +46,8 @@ Result CommandParser::createError(uint8_t statusCode, const char* message) {
     result.duration_ms = 0;
     
     if (message != nullptr) {
-        strncpy_s(result.message, sizeof(result.message), message, 
-                  sizeof(result.message) - 1);
+        strncpy(result.message, message, sizeof(result.message) - 1);
+        result.message[sizeof(result.message) - 1] = '\0';
     } else {
         strcpy(result.message, "Unknown error");
     }
@@ -74,7 +74,7 @@ bool CommandParser::validateDrawCircleParams(const Command* cmd) {
 }
 
 bool CommandParser::validateDrawRectParams(const Command* cmd) {
-    if (cmd == nullptr || cmd->paramsLen != 9) {
+    if (cmd == nullptr || cmd->paramsLen != 10) {
         return false;
     }
     

@@ -18,19 +18,36 @@ void SerialHandler::init() {
 }
 
 void SerialHandler::addRxByte(uint8_t byte) {
+    // 受信タイムアウト時はバッファ破棄
+    uint32_t now = millis();
+    if ((now - lastRxTime) > RX_TIMEOUT_MS && rxIndex > 0) {
+        clearRxBuffer();
+    }
+
     if (rxIndex >= SERIAL_RX_BUFFER_SIZE - 1) {
         // バッファオーバーフロー対策
         clearRxBuffer();
     }
     
     rxBuffer[rxIndex++] = byte;
-    lastRxTime = millis();
+    lastRxTime = now;
     
     // フレーム区切り検出（\r\n）
     if (rxIndex >= 2 && rxBuffer[rxIndex - 2] == FRAME_DELIMITER_1 && 
         rxBuffer[rxIndex - 1] == FRAME_DELIMITER_2) {
-        // フレーム完成
-        rxIndex -= 2;  // \r\n を除外
+        // フレーム完成（末尾\r\nを除いて解析）
+        uint16_t frameLen = rxIndex - 2;
+        Command cmd;
+
+        if (parseFrame(rxBuffer, frameLen, &cmd)) {
+            if (queueIndex < COMMAND_QUEUE_SIZE) {
+                memcpy(&commandQueue[queueIndex], &cmd, sizeof(Command));
+                queueIndex++;
+            }
+        }
+
+        // 次フレーム受信に備えてクリア
+        clearRxBuffer();
     }
 }
 
@@ -79,9 +96,9 @@ void SerialHandler::sendResponse(const Result* result) {
     frame[idx++] = FRAME_DELIMITER_1;
     frame[idx++] = FRAME_DELIMITER_2;
     
-    // シリアル送信
-    Serial1.write(frame, idx);
-    Serial1.flush();
+    // シリアル送信（USB）
+    Serial.write(frame, idx);
+    Serial.flush();
 }
 
 uint16_t SerialHandler::calculateCRC16(const uint8_t* data, uint16_t len) {
